@@ -1,12 +1,12 @@
 //const IP = "192.168.1.5";
-const IP = "192.168.100.147";
+const IP = "192.168.24.49";
 const PORT = 3001;
 const URL = "http://"+IP+":"+PORT+"/";
 
-export const getAllContacts=(fnRefreshList)=>{
-    console.log("getAllContacts..");
+export const getAllLaptops=(fnRefreshList)=>{
+    console.log("getAllLaptops..");
     fetch(
-        URL+"contactos"
+        URL+"laptos"
     ).then(
         (response)=>{return response.json()}
     ).then(

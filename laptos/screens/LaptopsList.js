@@ -1,46 +1,46 @@
 // Importar el View
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { Button, ListItem } from "@rneui/base"
-import { getAllContacts } from "../rest_client/contactos"
+import { getAllLaptops } from "../rest_client/laptos"
 import { useState } from "react";
 
 // DEfinicion del componente
-export const ContactList = () => {
+export const LaptopsList = () => {
 
     // Es una variable de estado
     // Se cre aun objeto para ver que tal
-    const [contactsList, setContactList] = useState([]);
+    const [LaptopList, setLaptopsList] = useState([]);
 
     // Funcion que retorne un dir
-    const ContacItem = ({ contac }) => {
+    const LaptopItem = ({ laptop }) => {
         return <ListItem>
             <ListItem.Content>
-                <ListItem.Title>{contac.nombre} {contac.apellido}</ListItem.Title>
-                <ListItem.Subtitle>{contac.celular}</ListItem.Subtitle>
+                <ListItem.Title>{laptop.marca} {laptop.procesador}</ListItem.Title>
+                <ListItem.Subtitle>{laptop.memoria} {laptop.disco}</ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>
     }
 
 
-    fnRefreshList = (contacts) => {
-        console.log("Refrescar lista!!", contacts)
-        setContactList(contacts);
+    fnRefreshList = (laptos) => {
+        console.log("Refrescar lista!!", laptos)
+        setLaptopsList(laptos);
 
     }
 
 
     return <View>
-        <Text>LISTA DE CONTACTOS!</Text>
+        <Text>LISTA DE LAPTOPS!</Text>
         <Button
             title="Consultar"
             onPress={() => {
-                getAllContacts(fnRefreshList);
+                getAllLaptops(fnRefreshList);
             }}
         />
         <FlatList
-            data={contactsList}
+            data={LaptopList}
             renderItem={({ item }) => {
-                return <ContacItem contac={item} />
+                return <LaptopItem laptop={item} />
             }}
         />
     </View>
