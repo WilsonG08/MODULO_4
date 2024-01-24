@@ -1,6 +1,8 @@
 import {NavigationContainer} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import {ContactList} from './screens/ContacList.js';
+import {ContacsForm} from './screens/ContactsForms.js'
+
 
 export default function App() {
 
@@ -9,9 +11,13 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StackContacts.Navigator>
+      <StackContacts.Navigator initialRouteName="ContacListNav">
         <StackContacts.Screen name="ContacListNav"
-        component={ContactList}/>
+        component={ContactList}
+        />
+        <StackContacts.Screen name="ContactsFormNav"
+        component={ContacsForm}
+        />
       </StackContacts.Navigator>
     </NavigationContainer>
   );

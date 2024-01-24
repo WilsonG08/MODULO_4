@@ -1,6 +1,6 @@
 // Importar el View
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { Button, ListItem } from "@rneui/base"
+import { Button, ListItem, FAB } from "@rneui/base"
 import { getAllContacts } from "../rest_client/contactos"
 import { useState } from "react";
 
@@ -29,7 +29,7 @@ export const ContactList = () => {
     }
 
 
-    return <View>
+    return <View style = {styles.container}>
         <Text>LISTA DE CONTACTOS!</Text>
         <Button
             title="Consultar"
@@ -42,6 +42,10 @@ export const ContactList = () => {
             renderItem={({ item }) => {
                 return <ContacItem contac={item} />
             }}
+        />
+
+        <FAB
+        title="+"
         />
     </View>
 }
