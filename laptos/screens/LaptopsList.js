@@ -1,11 +1,11 @@
 // Importar el View
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { Button, ListItem } from "@rneui/base"
+import { Button, ListItem, FAB } from "@rneui/base"
 import { getAllLaptops } from "../rest_client/laptos"
 import { useState } from "react";
 
 // DEfinicion del componente
-export const LaptopsList = () => {
+export const LaptopsList = ({navigation}) => {
 
     // Es una variable de estado
     // Se cre aun objeto para ver que tal
@@ -29,7 +29,7 @@ export const LaptopsList = () => {
     }
 
 
-    return <View>
+    return <View style = {styles.container}>
         <Text>LISTA DE LAPTOPS!</Text>
         <Button
             title="Consultar"
@@ -43,6 +43,11 @@ export const LaptopsList = () => {
                 return <LaptopItem laptop={item} />
             }}
         />
+
+        <FAB
+            title="+"
+            onPress={() => { navigation.navigate("LaptopFormNav") }}
+        />
     </View>
 }
 
@@ -50,7 +55,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'column', // Principal eje vertical
+        alignItems: 'stretch', // eje secundario
+        justifyContent: 'flex-start', // JP
     },
 });

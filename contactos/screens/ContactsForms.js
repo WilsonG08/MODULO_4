@@ -4,7 +4,7 @@ import { useState } from "react";
 import { saveContactRest } from '../rest_client/contactos.js';
 
 
-export const ContacsForm = () => {
+export const ContacsForm = ({navigation}) => {
     // Variable de estado
     const [name, setName] = useState();
     const [surname, setSurname] = useState();
@@ -16,7 +16,8 @@ export const ContacsForm = () => {
     }
 
     const saveContact = () => {
-        console.log("SaveContact")
+        console.log("SaveContact");
+        navigation.goBack();
         saveContactRest(
             {
                 name: name,

@@ -1,11 +1,11 @@
 // Importar el View
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { Button, ListItem, FAB } from "@rneui/base"
-import { getAllContacts } from "../rest_client/contactos"
 import { useState } from "react";
+import { getAllContacts } from "../rest_client/contactos.js";
 
 // DEfinicion del componente
-export const ContactList = () => {
+export const ContactList = ({navigation}) => {
 
     // Es una variable de estado
     // Se cre aun objeto para ver que tal
@@ -46,6 +46,7 @@ export const ContactList = () => {
 
         <FAB
         title="+"
+        onPress={() => {navigation.navigate("ContactsFormNav")}}
         />
     </View>
 }
@@ -54,7 +55,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'column', // Principal eje vertical
+        alignItems: 'stretch', // eje secundario
+        justifyContent: 'flex-start', // JP
     },
 });
