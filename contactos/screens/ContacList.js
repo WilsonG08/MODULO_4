@@ -1,11 +1,11 @@
 // Importar el View
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList ,TouchableHighlight } from "react-native";
 import { Button, ListItem, FAB } from "@rneui/base"
 import { useState } from "react";
 import { getAllContacts } from "../rest_client/contactos.js";
 
 // DEfinicion del componente
-export const ContactList = ({navigation}) => {
+export const ContactList = ({ navigation }) => {
 
     // Es una variable de estado
     // Se cre aun objeto para ver que tal
@@ -13,12 +13,16 @@ export const ContactList = ({navigation}) => {
 
     // Funcion que retorne un dir
     const ContacItem = ({ contac }) => {
-        return <ListItem>
-            <ListItem.Content>
-                <ListItem.Title>{contac.nombre} {contac.apellido}</ListItem.Title>
-                <ListItem.Subtitle>{contac.celular}</ListItem.Subtitle>
-            </ListItem.Content>
-        </ListItem>
+        return <TouchableHighlight onPress={() => {
+            navigation.navigate("ContactsFormNav", {contacParam:contac});
+        }}>
+            <ListItem>
+                <ListItem.Content>
+                    <ListItem.Title>{contac.nombre} {contac.apellido}</ListItem.Title>
+                    <ListItem.Subtitle>{contac.celular}</ListItem.Subtitle>
+                </ListItem.Content>
+            </ListItem>
+        </TouchableHighlight>
     }
 
 
@@ -29,7 +33,7 @@ export const ContactList = ({navigation}) => {
     }
 
 
-    return <View style = {styles.container}>
+    return <View style={styles.container}>
         <Text>LISTA DE CONTACTOS!</Text>
         <Button
             title="Consultar"
@@ -45,8 +49,9 @@ export const ContactList = ({navigation}) => {
         />
 
         <FAB
-        title="+"
-        onPress={() => {navigation.navigate("ContactsFormNav")}}
+            title="+"
+            // Le paso como atributo de objeto
+            onPress={() => { navigation.navigate("ContactsFormNav", {}) }}
         />
     </View>
 }
