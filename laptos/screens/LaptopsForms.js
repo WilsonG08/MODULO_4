@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Input, Button } from '@rneui/base';
 import { useState } from "react";
-import { saveLaptopRest, updateLaptopRest } from '../rest_client/laptos.js';
+import { saveLaptopRest, updateLaptopRest, deleteLaptopRest } from '../rest_client/laptos.js';
 
 export const LaptopForm = ({ navigation, route }) => {
     // Variavles para guardar la laptoo que viene dl otro lado 
@@ -22,9 +22,10 @@ export const LaptopForm = ({ navigation, route }) => {
     const [memoria, setMemoria] = useState(isNew ? null : laptopRetrived.memoria);
     const [disco, setDisco] = useState(isNew ? null : laptopRetrived.disco);
 
+
     // Funcion para refrescar los mensajes
-    const showMessage = () => {
-        Alert.alert("CONFIRMACION", isNew?"Se creo la laptop nueva": "Laptop Actualizada!");
+    const showMessage = (menssage) => {
+        Alert.alert("CONFIRMACION", menssage);
         navigation.goBack();
     }
 
@@ -41,16 +42,40 @@ export const LaptopForm = ({ navigation, route }) => {
         );
     }
 
-    const updateLaptop =() =>{
+    const updateLaptop = () => {
         console.log("Actualizando....");
         updateLaptopRest(
             {
-                id:laptopRetrived.id,
+                id: laptopRetrived.id,
                 marca: marca,
                 procesador: procesador,
                 memoria: memoria,
                 disco: disco
             },
+            showMessage
+        )
+    }
+
+
+    const confirmDelete = () => {
+        Alert.alert("CONFIRMACION",
+            "Estas seguro que quieres eliminar?",
+            [
+                {
+                    text: "SI",
+                    onPress: deleteLaptop
+                },
+                {
+                    text: "CANCELAR"
+                }
+            ]);
+    }
+
+    const deleteLaptop = () => {
+        console.log("INVOCA AL REST DE BORRAR");
+        deleteLaptopRest({
+            id: laptopRetrived.id
+        },
             showMessage
         )
     }
@@ -91,8 +116,16 @@ export const LaptopForm = ({ navigation, route }) => {
 
         <Button
             title="GUARDAR"
-            onPress={isNew? createLaptop: updateLaptop}
+            onPress={isNew ? createLaptop : updateLaptop}
         />
+
+        {
+            isNew ? <View></View> : <Button
+                title="ELIMINAR"
+                onPress={confirmDelete}
+            />
+        }
+
 
     </View>
 

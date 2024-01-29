@@ -1,8 +1,8 @@
 // Importar el View
 import { View, Text, StyleSheet, FlatList, TouchableHighlight } from "react-native";
 import { Button, ListItem, FAB } from "@rneui/base"
-import { useState } from "react";
 import { getAllLaptops } from "../rest_client/laptos"
+import { useState, useEffect } from "react";
 
 // DEfinicion del componente
 export const LaptopsList = ({ navigation }) => {
@@ -10,6 +10,13 @@ export const LaptopsList = ({ navigation }) => {
     // Es una variable de estado
     // Se cre aun objeto para ver que tal
     const [LaptopList, setLaptopsList] = useState([]);
+
+    // Funcion para cada vez que refersca la pagina
+    useEffect(() => {
+        getAllLaptops(fnRefreshList);
+    },[]);
+
+
 
     // Funcion que retorne un dir
     const LaptopItem = ({ laptop }) => {
@@ -33,13 +40,7 @@ export const LaptopsList = ({ navigation }) => {
 
 
     return <View style={styles.container}>
-        <Text>LISTA DE LAPTOPS!</Text>
-        <Button
-            title="Consultar"
-            onPress={() => {
-                getAllLaptops(fnRefreshList);
-            }}
-        />
+
         <FlatList
             data={LaptopList}
             renderItem={({ item }) => {

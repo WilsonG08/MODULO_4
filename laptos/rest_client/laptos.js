@@ -37,7 +37,7 @@ export const saveLaptopRest = (laptop, fnShowMessage) => {
     )
         .then(response => response.json())
         .then(body => {
-            fnShowMessage();
+            fnShowMessage("Se ha creado la laptop");
             console.log(body)
         })
 }
@@ -63,7 +63,32 @@ export const updateLaptopRest = (laptop, fnShowMessage) => {
     )
         .then(response => response.json())
         .then(body => {
-            fnShowMessage();
+            fnShowMessage("Latop actualizada");
+            console.log(body)
+        })
+}
+
+export const deleteLaptopRest = (laptop, fnShowMessage) => {
+    const config = {
+        method: "DELETE",
+       /*  headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+
+            id:laptop.id,
+            marca: laptop.marca,
+            procesador: laptop.procesador,
+            memoria: laptop.memoria,
+            disco: laptop.disco
+        }) */
+    }
+    fetch(
+        URL + "laptos/"+laptop.id, config
+    )
+        .then(response => response.json())
+        .then(body => {
+            fnShowMessage("Se ha eliminado la laptop");
             console.log(body)
         })
 }
