@@ -29,7 +29,6 @@ export const ContactList = ({ navigation }) => {
     fnRefreshList = (contacts) => {
         console.log("Refrescar lista!!", contacts)
         setContactList(contacts);
-
     }
 
 

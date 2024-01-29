@@ -1,23 +1,35 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Input, Button } from '@rneui/base';
 import { useState } from "react";
-import { saveLaptopRest } from '../rest_client/laptos.js';
+import { saveLaptopRest, updateLaptopRest } from '../rest_client/laptos.js';
 
-export const LaptopForm = ({ navigation }) => {
+export const LaptopForm = ({ navigation, route }) => {
+    // Variavles para guardar la laptoo que viene dl otro lado 
+    let laptopRetrived = route.params.laptopParam;
+    let isNew = true;
+
+    if (laptopRetrived != null) {
+        isNew = false;
+    }
+
+    console.log("isNew:", isNew);
+    console.log("laptopRetrived:", laptopRetrived);
+
+
     // Variables de estado
-    const [marca, setMarca] = useState();
-    const [procesador, setProcesador] = useState();
-    const [memoria, setMemoria] = useState();
-    const [disco, setDisco] = useState();
+    const [marca, setMarca] = useState(isNew ? null : laptopRetrived.marca);
+    const [procesador, setProcesador] = useState(isNew ? null : laptopRetrived.procesador);
+    const [memoria, setMemoria] = useState(isNew ? null : laptopRetrived.memoria);
+    const [disco, setDisco] = useState(isNew ? null : laptopRetrived.disco);
 
     // Funcion para refrescar los mensajes
     const showMessage = () => {
-        Alert.alert("CONFIRMACION", "Se creo la laptop nueva");
+        Alert.alert("CONFIRMACION", isNew?"Se creo la laptop nueva": "Laptop Actualizada!");
+        navigation.goBack();
     }
 
-    const saveLaptop = () => {
+    const createLaptop = () => {
         console.log("SaveLaptop");
-        navigation.goBack();
         saveLaptopRest(
             {
                 marca: marca,
@@ -27,6 +39,20 @@ export const LaptopForm = ({ navigation }) => {
             },
             showMessage
         );
+    }
+
+    const updateLaptop =() =>{
+        console.log("Actualizando....");
+        updateLaptopRest(
+            {
+                id:laptopRetrived.id,
+                marca: marca,
+                procesador: procesador,
+                memoria: memoria,
+                disco: disco
+            },
+            showMessage
+        )
     }
 
 
@@ -64,10 +90,10 @@ export const LaptopForm = ({ navigation }) => {
         />
 
         <Button
-        title="GUARDAR"
-        onPress={saveLaptop}
+            title="GUARDAR"
+            onPress={isNew? createLaptop: updateLaptop}
         />
-        
+
     </View>
 
 }
