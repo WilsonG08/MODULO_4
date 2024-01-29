@@ -1,8 +1,9 @@
 // Importar el View
 import { View, Text, StyleSheet, FlatList ,TouchableHighlight } from "react-native";
 import { Button, ListItem, FAB } from "@rneui/base"
-import { useState } from "react";
 import { getAllContacts } from "../rest_client/contactos.js";
+import { useState, useEffect } from "react";
+
 
 // DEfinicion del componente
 export const ContactList = ({ navigation }) => {
@@ -11,6 +12,13 @@ export const ContactList = ({ navigation }) => {
     // Se cre aun objeto para ver que tal
     const [contactsList, setContactList] = useState([]);
 
+    // Funcion para cada vez que refresca la pagina
+    useEffect(() => {
+        //console.log("Ejecuto la funcion de useEffect");
+        getAllContacts(fnRefreshList);
+    },[]);
+    
+    
     // Funcion que retorne un dir
     const ContacItem = ({ contac }) => {
         return <TouchableHighlight onPress={() => {
@@ -33,13 +41,8 @@ export const ContactList = ({ navigation }) => {
 
 
     return <View style={styles.container}>
-        <Text>LISTA DE CONTACTOS!</Text>
-        <Button
-            title="Consultar"
-            onPress={() => {
-                getAllContacts(fnRefreshList);
-            }}
-        />
+    
+    
         <FlatList
             data={contactsList}
             renderItem={({ item }) => {

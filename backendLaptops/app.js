@@ -82,7 +82,7 @@ app.put("/laptos/:idParam", (req, res) => {
 app.delete("/laptos/:id", (req, res) => {
     const id = req.params.id;
     console.log("ID D:", id );
-    res.send();
+    res.send({id:id});
 });
 
 

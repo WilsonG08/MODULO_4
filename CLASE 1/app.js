@@ -53,7 +53,7 @@ app.put("/contactos/:idParam", (req, res) => {
 app.delete("/contactos/:id", (req, res) => {
     const id = req.params.id;
     console.log("ID D:", id );
-    res.send();
+    res.send({id:id});
 })
 
 // Levenyar un servidor web

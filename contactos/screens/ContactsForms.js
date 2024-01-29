@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Input, Button } from '@rneui/base';
 import { useState } from "react";
-import { saveContactRest, updateContactRest } from '../rest_client/contactos.js';
+import { saveContactRest, updateContactRest, deleteContactRest } from '../rest_client/contactos.js';
 
 
 export const ContacsForm = ({ navigation, route }) => {
@@ -26,8 +26,8 @@ export const ContacsForm = ({ navigation, route }) => {
     // console.log(route.params.contacParam);
 
     // Funcion para refewscar mensajes
-    const showMessage = () => {
-        Alert.alert("CONFIRMACION", isNew ? "Se creo el Contacto" : "Contacto Actualizaado");
+    const showMessage = (message) => {
+        Alert.alert("CONFIRMACION", message);
         navigation.goBack();
     }
 
@@ -48,12 +48,36 @@ export const ContacsForm = ({ navigation, route }) => {
         console.log("Actualizando.... ");
         updateContactRest(
             {
-                id:contactRetrived.id,
+                id: contactRetrived.id,
                 name: name,
                 surname: surname,
                 phoneNumber: phoneNumber
             },
             showMessage)
+    }
+
+
+    const confirmDelete = () => {
+        Alert.alert("CONFIRMACION",
+            "Estas seguro que quieres eliminar?",
+            [
+                {
+                    text: "SI",
+                    onPress: deleteContact
+                },
+                {
+                    text: "CANCELAR"
+                }
+            ]);
+    }
+
+    const deleteContact = () => {
+        console.log("INVOCA AL REST DE BORRAR");
+        deleteContactRest({
+            id: contactRetrived.id
+        },
+            showMessage
+        )
     }
 
 
@@ -83,6 +107,14 @@ export const ContacsForm = ({ navigation, route }) => {
             title="GUARDAR"
             onPress={isNew ? createContact : updateContact}
         />
+
+        {
+            isNew ? <View></View> : <Button
+                title="ELIMINAR"
+                onPress={confirmDelete}
+            />
+        }
+
 
     </View>
 }
