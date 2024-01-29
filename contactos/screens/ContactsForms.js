@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Input, Button } from '@rneui/base';
 import { useState } from "react";
-import { saveContactRest } from '../rest_client/contactos.js';
+import { saveContactRest, updateContactRest } from '../rest_client/contactos.js';
 
 
 export const ContacsForm = ({ navigation, route }) => {
@@ -16,9 +16,6 @@ export const ContacsForm = ({ navigation, route }) => {
     console.log("contacRetrived:", contactRetrived);;
 
 
-    if (!isNew) {
-
-    }
 
     // Variable de estado
     const [name, setName] = useState(isNew ? null : contactRetrived.nombre);
@@ -30,12 +27,13 @@ export const ContacsForm = ({ navigation, route }) => {
 
     // Funcion para refewscar mensajes
     const showMessage = () => {
-        Alert.alert("CONFIRMACION", "Se creo el Contacto");
+        Alert.alert("CONFIRMACION", isNew ? "Se creo el Contacto" : "Contacto Actualizaado");
+        navigation.goBack();
     }
 
     const createContact = () => {
         console.log("SaveContact");
-        navigation.goBack();
+
         saveContactRest(
             {
                 name: name,
@@ -46,8 +44,17 @@ export const ContacsForm = ({ navigation, route }) => {
         );
     }
 
-    const updateContact = () =>{
+    const updateContact = () => {
         console.log("Actualizando.... ");
+        updateContactRest(
+            {
+                id:contactRetrived.id,
+                name: name,
+                surname: surname,
+                phoneNumber: phoneNumber
+            },
+            showMessage)
+
     }
 
 
@@ -75,7 +82,7 @@ export const ContacsForm = ({ navigation, route }) => {
         />
         <Button
             title="GUARDAR"
-            onPress={saveContact}
+            onPress={isNew ? createContact : updateContact}
         />
 
     </View>

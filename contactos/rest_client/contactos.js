@@ -1,5 +1,5 @@
 //const IP = "192.168.1.5";
-const IP = "192.168.100.147";
+const IP = "192.168.1.3";
 const PORT = 3001;
 const URL = "http://" + IP + ":" + PORT + "/";
 
@@ -34,6 +34,32 @@ export const saveContactRest = (contac, fnShowMessage) => {
     }
     fetch(
         URL + "contactos", config
+    )
+        .then(repsonse => repsonse.json())
+        .then(body => {
+            fnShowMessage();
+            console.log(body)
+        })
+}
+
+
+export const updateContactRest = (contac, fnShowMessage) => {
+    const config = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+
+            id:contac.id,
+            nombre: contac.name,
+            apellido: contac.surname,
+            celular: contac.phoneNumber
+
+        })
+    }
+    fetch(
+        URL + "contactos/"+contac.id, config
     )
         .then(repsonse => repsonse.json())
         .then(body => {
